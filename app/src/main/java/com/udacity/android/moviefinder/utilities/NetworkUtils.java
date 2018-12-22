@@ -40,6 +40,28 @@ public final class NetworkUtils {
         return url;
     }
 
+    public static URL buildMovieDetailUrl(String apiName, String apiKey, String movieId) {
+        Uri builtUri = buildMovieUrl(apiKey, apiName, movieId);
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        Log.v(TAG, "Built URI " + url);
+
+        return url;
+    }
+
+    private static Uri buildMovieUrl(String apiKey, String apiName, String movieId) {
+        return Uri.parse(BASE_DB_API_URL + movieId + "/" + apiName).buildUpon()
+                .appendQueryParameter(API_PARAM, apiKey)
+                .build();
+    }
+
+
     private static Uri buildUrl(String language, String apiKey, String apiName) {
         return Uri.parse(BASE_DB_API_URL + apiName).buildUpon()
                 .appendQueryParameter(API_PARAM, apiKey)
